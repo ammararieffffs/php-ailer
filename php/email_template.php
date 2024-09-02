@@ -25,13 +25,6 @@ function emailTemplateOTP()
             font-weight: 400;
             font-style: normal;
         }
-        .flex {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
         .roboto-bold {
             font-family: "Roboto", sans-serif;
             font-weight: 700;

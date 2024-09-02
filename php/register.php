@@ -40,6 +40,32 @@ if (isset($_POST['btnRegister'])) {
     // Close statement and connection
     $stmt->close();
     $connection->close();
+
+
+    //LOOP CODE
+    // $query = "SELECT `company_name`, `end_date` FROM `company-list`";
+    // $result = mysqli_query($connection, $query);
+    // $current_date = date('Y-m-d');
+
+    // while ($row = mysqli_fetch_assoc($result)) {
+    //     $company_email = $row['company_name'];
+    //     $end_date = date('Y-m-d', strtotime($row['end_date']));
+
+    //     $remaining_seconds = strtotime($end_date) - strtotime($current_date);
+    //     $remaining_days = floor($remaining_seconds / (60 * 60 * 24));
+    //     $email_message = emailTemplateOTP();
+
+    //     if ($remaining_days <= 30) {
+    //         sendEmail($company_email, "Notification for you", $email_message);
+    //         echo "<br> This company has " . $remaining_days . " days left.";
+    //     } else {
+    //         echo "<br> This company has " . $remaining_days . " days left.";
+    //     }
+    // }
+
+    // // Close the connection
+    // mysqli_close($connection);
+
 }
 ?>
 
