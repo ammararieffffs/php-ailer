@@ -36,10 +36,18 @@ if (isset($_POST["btnVerifyCode"])){
         } else {
 
             //if code is correct, verify expiry status
-            $current_time = date('Y-m-d H:i:s');
-            if (strtotime($current_time) - strtotime($otp_time) >= 93){
+            // $current_time = date('Y-m-d H:i:s');
+            // if (strtotime($current_time) - strtotime($otp_time) >= 93){
+            //     $_SESSION['expired'] = true;
+            //     $code_error = '<i class="bx bx-error-circle"></i>' . "Your OTP has expired. Please get a new OTP.";
+            //     $noError = false;
+            // }
+
+            $otp_date = date('Y-m-d', strtotime($otp_time)); // Convert OTP time to date only
+            $current_date = date('Y-m-d'); // Get current date
+            if ((strtotime($current_date) - strtotime($otp_date)) >= 30 * 24 * 60 * 60) {
                 $_SESSION['expired'] = true;
-                $code_error = '<i class="bx bx-error-circle"></i>' . "Your OTP has expired. Please get a new OTP.";
+                $code_error = '<i class="bx bx-error-circle"></i>' . "FUCK YOUUUU";
                 $noError = false;
             }
         }
