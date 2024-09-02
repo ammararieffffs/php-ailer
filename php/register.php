@@ -2,6 +2,7 @@
 session_start();
 include "db_conn.php";
 include "functions.php";
+include "email_template.php";
 if (isset($_POST['btnRegister'])) {
 
     // Prepare and bind
@@ -27,9 +28,10 @@ if (isset($_POST['btnRegister'])) {
 
     $remaining_seconds = strtotime($end_date) - strtotime($current_date);
     $remaining_days = floor($remaining_seconds / (60 * 60 * 24));
-
+    $email_message = emailTemplateOTP();
+    
     if ($remaining_days <= 30) {
-        sendEmail($company_name, "Free gifts for you", "haha u suck");
+        sendEmail($company_name, "Notification for you", $email_message);
         echo "<br> This company has " . $remaining_days . " days left.";
     } else {
         echo "<br> This company has " . $remaining_days . " days left.";
