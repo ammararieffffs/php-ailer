@@ -45,7 +45,7 @@ function emailTemplateOTP($data)
         </style>
     </head>
     <body>
-        <h1>Ding Dong Ding Dong time for Maintenance</h1>
+        <h1>Maintenance List</h1>
         <div class="flex">
         <thead>
             <tr>
