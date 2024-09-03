@@ -1,6 +1,6 @@
 <?php
 
-function emailTemplateOTP($data)
+function emailTemplate($data)
 {
     $html = <<<EOT
     <!DOCTYPE html>
