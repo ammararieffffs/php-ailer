@@ -42,7 +42,6 @@ $header = array_shift($rows);   // Skip the header row
             margin: 0 5px;
             padding: 5px 10px;
             border: 1px solid #ccc;
-            border-radius: 25%;
             text-decoration: none;
             color: #000;
         }
@@ -195,7 +194,6 @@ $header = array_shift($rows);   // Skip the header row
             renderTable(1);
         });
 
-        // Initial render
         renderTable();
     </script>
 </body>
