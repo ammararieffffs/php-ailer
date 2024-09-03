@@ -98,7 +98,6 @@ $paginated_rows = array_slice($rows, $start_index, $rows_per_page);
         </thead>
         <tbody>
             <?php
-            $data = '';
             foreach ($paginated_rows as $row) {
                 $company_email = $row[0] ?? '';
                 $second_column = $row[1] ?? '';

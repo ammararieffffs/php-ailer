@@ -10,7 +10,7 @@ $header = array_shift($rows);   //this is to skip the header row
 $current_date = date('Y-m-d');   //get today's date
 
 $confirm_send = false;
-$data = '';
+$email_content = '';
 foreach ($rows as $row) {
     $company_email = $row[0] ?? '';
     $second_column = $row[1] ?? '';
@@ -25,7 +25,7 @@ foreach ($rows as $row) {
 
     if (($remaining_days !== null) && ($remaining_days <= 30) && ($remaining_days >= 0)) {
         $confirm_send = true;
-        $data .= "<tr>
+        $email_content .= "<tr>
                 <td>" . htmlspecialchars($company_email) . "</td>
                 <td>" . htmlspecialchars($second_column) . "</td>
                 <td>" . htmlspecialchars($end_date_str) . "</td>
@@ -35,8 +35,8 @@ foreach ($rows as $row) {
 }
 
 if ($confirm_send == true) {
-    $email_message = emailTemplate($data);
-    sendEmail("opy7654321@gmail.com", "Reminder for you", $email_message);
+    $email_message = emailTemplate($email_content);
+    sendEmail("opy7654321@gmail.com", "Reminder for you", $email_message);    //replace the first argument with your own receiver email
 }
 
 ?>
