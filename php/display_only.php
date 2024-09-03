@@ -13,7 +13,7 @@ $header = array_shift($rows);   // Skip the header row
     <title>Maintenance List</title>
     <style>
         body {
-            margin: 0 20%;
+            margin: 0 20% 10%;
         }
         .title-sec {
             display: flex;

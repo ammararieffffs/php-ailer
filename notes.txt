@@ -1,6 +1,9 @@
 1. Edit sender email at mail_function.php, edit receiver email at send_notif.php. 
 2. For sending email only (can be executed in background), run send_notif.php.
-3. For displaying data on browser, run maintenance_list.php.
+3. For displaying data on browser, run display_only.php.
 4. To configure email & related server settings, go to mail_function.php.
 5. To modify email template go to email_template.php.
 6. To modify email contents go to send_notif.php (find the $email_content variable).
+
+
+**maintenance_list.php is currently undergoing some testing
