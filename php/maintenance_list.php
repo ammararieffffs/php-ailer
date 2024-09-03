@@ -67,7 +67,7 @@ $paginated_rows = array_slice($rows, $start_index, $rows_per_page);
             color: #000;
         }
         .pagination a.active {
-            background-color: #4CAF50;
+            background-color: #8f8787c5;
             color: white;
         }
     </style>
@@ -81,9 +81,9 @@ $paginated_rows = array_slice($rows, $start_index, $rows_per_page);
     <form method="get">
         <label for="rows_per_page">Rows per page:</label>
         <select name="rows_per_page" id="rows_per_page" onchange="this.form.submit()">
-            <option value="5" <?php if ($rows_per_page == 5) echo 'selected'; ?>>5</option>
             <option value="10" <?php if ($rows_per_page == 10) echo 'selected'; ?>>10</option>
             <option value="20" <?php if ($rows_per_page == 20) echo 'selected'; ?>>20</option>
+            <option value="30" <?php if ($rows_per_page == 30) echo 'selected'; ?>>30</option>
         </select>
     </form>
 
@@ -98,7 +98,6 @@ $paginated_rows = array_slice($rows, $start_index, $rows_per_page);
         </thead>
         <tbody>
             <?php
-            $confirm_send = false;
             $data = '';
             foreach ($paginated_rows as $row) {
                 $company_email = $row[0] ?? '';
@@ -113,13 +112,6 @@ $paginated_rows = array_slice($rows, $start_index, $rows_per_page);
                 }
             
                 if (($remaining_days !== null) && ($remaining_days <= 30) && ($remaining_days >= 0)) {
-                    $confirm_send = true;
-                    $data .= "<tr>
-                            <td>" . htmlspecialchars($company_email) . "</td>
-                            <td>" . htmlspecialchars($second_column) . "</td>
-                            <td>" . htmlspecialchars($end_date_str) . "</td>
-                            <td>" . $remaining_days . "</td>
-                        </tr>";
                     echo "<tr>
                             <td>" . htmlspecialchars($company_email) . "</td>
                             <td>" . htmlspecialchars($second_column) . "</td>
@@ -140,12 +132,6 @@ $paginated_rows = array_slice($rows, $start_index, $rows_per_page);
                     echo "</td>
                         </tr>";
                 }
-            }
-
-            if ($confirm_send == true && $_SESSION['notified'] == 0) {
-                $_SESSION['notified'] = 1;
-                $email_message = emailTemplate($data);
-                sendEmail("opy7654321@gmail.com", "Reminder for you", $email_message);
             }
             ?>
         </tbody>

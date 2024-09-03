@@ -11,7 +11,7 @@ function sendEmail($user_email, $subject, $message) {
 
     //email information
     $senderName = "BIKEBEAR";
-    $senderEmail = 'kwazeedu@gmail.com';  //put ur own email here
+    $senderEmail = 'kwazeedu@gmail.com';  //put ur own sender email here
 
 
     //Create an instance; passing `true` enables exceptions
