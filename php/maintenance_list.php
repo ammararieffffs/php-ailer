@@ -1,10 +1,4 @@
 <?php
-session_start();
-
-if (!isset($_SESSION['notified'])) {
-    $_SESSION['notified'] = 0;
-}
-
 include "mail_function.php";
 include "email_template.php";
 
