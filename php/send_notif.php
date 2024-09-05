@@ -31,6 +31,7 @@ foreach ($rows as $row) {
                 <td>" . htmlspecialchars($end_date_str) . "</td>
                 <td>" . $remaining_days . "</td>
             </tr>";
+        // aaaa
     }
 }
 
