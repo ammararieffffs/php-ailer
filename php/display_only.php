@@ -58,7 +58,7 @@ $header = array_shift($rows);   // Skip the header row
     </div>
 
     <label for="search">Search:</label>
-    <input type="text" id="search" placeholder="Search by first column...">
+    <input type="text" id="search" placeholder="Search by website...">
 
     <label for="rows_per_page">Rows per page:</label>
     <select id="rows_per_page">

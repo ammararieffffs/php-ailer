@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tic-Tac-Toe</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+        font-family: Arial, sans-serif;
+      }
+
+      #game {
+        display: grid;
+        grid-template-columns: repeat(3, 100px);
+        grid-template-rows: repeat(3, 100px);
+        gap: 5px;
+      }
+
+      .cell {
+        width: 100px;
+        height: 100px;
+        background-color: lightgrey;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+        cursor: pointer;
+      }
+
+      button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="game">
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+      <div class="cell" data-cell></div>
+    </div>
+    <button id="restartButton">Restart</button>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+      const cells = document.querySelectorAll("[data-cell]");
+      const restartButton = document.getElementById("restartButton");
+      const X_CLASS = "x";
+      const O_CLASS = "o"; // AI
+      let circleTurn; // true if it's AI's turn
+
+      const WINNING_COMBINATIONS = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+      ];
+
+      startGame();
+
+      restartButton.addEventListener("click", startGame);
+
+      function startGame() {
+        circleTurn = false; // Human starts first
+        cells.forEach((cell) => {
+          cell.classList.remove(X_CLASS);
+          cell.classList.remove(O_CLASS);
+          cell.textContent = ""; // Clear cell content
+          cell.removeEventListener("click", handleClick);
+          cell.addEventListener("click", handleClick, { once: true });
+        });
+      }
+
+      function celebrate() {
+        confetti({
+          particleCount: 100,
+          spread: 700,
+          origin: {
+            y: 0.6,
+          },
+        });
+      }
+
+      function handleClick(e) {
+        const cell = e.target;
+        if (
+          cell.classList.contains(X_CLASS) ||
+          cell.classList.contains(O_CLASS)
+        )
+          return;
+
+        const currentClass = circleTurn ? O_CLASS : X_CLASS;
+        placeMark(cell, currentClass);
+        if (checkWin(currentClass)) {
+          celebrate();
+          setTimeout(() => alert(`${circleTurn ? "O" : "X"} Wins!`), 100);
+        } else if (isDraw()) {
+          setTimeout(() => alert("Draw!"), 100);
+        } else {
+          swapTurns();
+          if (circleTurn) {
+            computerMove(); // AI plays
+          }
+        }
+      }
+
+      function placeMark(cell, currentClass) {
+        cell.classList.add(currentClass);
+        cell.textContent = currentClass === X_CLASS ? "X" : "O"; // Add 'X' or 'O' to the cell
+      }
+
+      function swapTurns() {
+        circleTurn = !circleTurn;
+      }
+
+      function checkWin(currentClass) {
+        return WINNING_COMBINATIONS.some((combination) => {
+          return combination.every((index) => {
+            return cells[index].classList.contains(currentClass);
+          });
+        });
+      }
+
+      function isDraw() {
+        return [...cells].every((cell) => {
+          return (
+            cell.classList.contains(X_CLASS) || cell.classList.contains(O_CLASS)
+          );
+        });
+      }
+
+      function computerMove() {
+        const chance = Math.random(); // Generate a random number between 0 and 1
+        if (chance < 0.7) {
+          // 70% chance AI will play smart
+          let bestScore = -Infinity;
+          let bestMove;
+          cells.forEach((cell, index) => {
+            if (
+              !cell.classList.contains(X_CLASS) &&
+              !cell.classList.contains(O_CLASS)
+            ) {
+              // AI tries this move
+              cell.classList.add(O_CLASS);
+              const score = minimax(false);
+              cell.classList.remove(O_CLASS);
+              if (score > bestScore) {
+                bestScore = score;
+                bestMove = index;
+              }
+            }
+          });
+          placeMark(cells[bestMove], O_CLASS);
+        } else {
+          // 30% chance AI will play dumb (random move)
+          const availableCells = [...cells].filter((cell) => {
+            return (
+              !cell.classList.contains(X_CLASS) &&
+              !cell.classList.contains(O_CLASS)
+            );
+          });
+          const randomCell =
+            availableCells[Math.floor(Math.random() * availableCells.length)];
+          placeMark(randomCell, O_CLASS);
+        }
+
+        if (checkWin(O_CLASS)) {
+          setTimeout(() => alert("O Wins!"), 100);
+        } else if (isDraw()) {
+          setTimeout(() => alert("Draw!"), 100);
+        } else {
+          swapTurns();
+        }
+      }
+
+      function minimax(isMaximizing) {
+        if (checkWin(O_CLASS)) return 10;
+        if (checkWin(X_CLASS)) return -10;
+        if (isDraw()) return 0;
+
+        if (isMaximizing) {
+          let bestScore = -Infinity;
+          cells.forEach((cell) => {
+            if (
+              !cell.classList.contains(X_CLASS) &&
+              !cell.classList.contains(O_CLASS)
+            ) {
+              cell.classList.add(O_CLASS);
+              const score = minimax(false);
+              cell.classList.remove(O_CLASS);
+              bestScore = Math.max(score, bestScore);
+            }
+          });
+          return bestScore;
+        } else {
+          let bestScore = Infinity;
+          cells.forEach((cell) => {
+            if (
+              !cell.classList.contains(X_CLASS) &&
+              !cell.classList.contains(O_CLASS)
+            ) {
+              cell.classList.add(X_CLASS);
+              const score = minimax(true);
+              cell.classList.remove(X_CLASS);
+              bestScore = Math.min(score, bestScore);
+            }
+          });
+          return bestScore;
+        }
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+    <script>
+      function celebrate(button) {
+        confetti({
+          particleCount: 100,
+          spread: 700,
+          origin: {
+            y: 0.6,
+          },
+        });
+      }
+    </script>
+  </body>
+</html>
